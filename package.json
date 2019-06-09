@@ -1,0 +1,25 @@
+{
+  "name": "qiniu_sync",
+  "version": "1.0.0",
+  "description": "同步服务器上文件到 七牛 云存储 ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinghao1994/qiniu_sync.git"
+  },
+  "keywords": [
+    "node",
+    "qiniu",
+    "files",
+    "sync"
+  ],
+  "author": "dinghao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dinghao1994/qiniu_sync/issues"
+  },
+  "homepage": "https://github.com/dinghao1994/qiniu_sync#readme"
+}
