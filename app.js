@@ -48,15 +48,12 @@ function findFile(path) {
 }
 
 function upload() {
-
-    let files = findFile('./upload_file/');
-
+    // let files = findFile('./upload_file/');
 
     for (let i = 0; i < files.length; i++) {
         var localFile = files[i];
         var key = files[i];
-
-
+        return new Promice
         async function aaa() {
             let {
                 formUploader,
