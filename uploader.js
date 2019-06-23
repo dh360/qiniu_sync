@@ -12,7 +12,7 @@ function Uploader() {
         let accessKey = CONFIG.accessKey;
         let secretKey = CONFIG.secretKey;
         let putPolicy = new qiniu.rs.PutPolicy({
-            scope: 'leomeo'
+            scope: CONFIG.bucket
         });
         let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         let uploadToken = putPolicy.uploadToken(mac);

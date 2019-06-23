@@ -11,7 +11,8 @@ let Config = {
         "": ""
 
     },
-    uploadDir: './dinghao/'
+    uploadDir: './upload_test_files/',
+    ignore: '' // 需要忽略的文件 或者目录
 };
 
 module.exports = Config;
