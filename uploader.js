@@ -1,4 +1,5 @@
 let qiniu = require('qiniu');
+let ProgressBar = require('./process_bar');
 const CONFIG = require('./config.js');
 let fs = require("fs");
 let join = require('path').join;
@@ -31,6 +32,7 @@ function Uploader() {
      * params path  目录路径
      */
     this.readFiles = function (filePath) {
+        console.log("正在读取文件目录...");
         let finalFiles = [];
 
         function doRead(path) {
@@ -77,14 +79,21 @@ function Uploader() {
             putExtra
         } = this.init();
         let files = this.readFiles(CONFIG.uploadDir);
-        console.log('开始上传目录文件')
-
+        console.log('文件目录读取成功，开始上传目录文件')
+        console.log("待上传的文件队列个数为：   ", files.length);
+        //进度条
+        let NumTotal = files.length;
+        let NumDone = 0;
+        let processBar = new ProgressBar(NumTotal);
         for (let i in files) {
+            processBar.render("正在上传", NumTotal, i);
+
             let localFile = files[i];
-            let key = '';
-            const uploadRes = await this.doUpload(formUploader, uploadToken, putExtra, localFile, localFile);
+            let key = localFile;
+            const uploadRes = await this.doUpload(formUploader, uploadToken, putExtra, localFile, key);
         };
-    }
+        processBar.render("正在上传", NumTotal, NumTotal);
+    };
 
     this.checkArea = function (name) {
         let code = 'Zone_z0'; //默认华北
@@ -111,7 +120,7 @@ function Uploader() {
         }
 
         return "qiniu.zone." + code;
-    }
+    };
 }
 
 

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/dinghao1994/qiniu_sync#readme",
   "dependencies": {
-    "qiniu": "^7.2.2"
+    "qiniu": "^7.2.2",
+    "single-line-log": "^1.1.2"
   }
 }
