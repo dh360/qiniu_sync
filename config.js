@@ -10,7 +10,8 @@ let Config = {
         "": "",
         "": ""
 
-    }
+    },
+    uploadDir: './dinghao/'
 };
 
 module.exports = Config;
