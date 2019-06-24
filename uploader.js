@@ -17,7 +17,7 @@ function Uploader() {
         let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         let uploadToken = putPolicy.uploadToken(mac);
         let config = new qiniu.conf.Config();
-        config.zone = qiniu.zone.Zone_z0;
+        config.zone = this.checkArea(CONFIG.zone); //  把存储地区换成相应的zone code
         let formUploader = new qiniu.form_up.FormUploader(config);
         let putExtra = new qiniu.form_up.PutExtra();
         return {
@@ -35,11 +35,22 @@ function Uploader() {
         console.log("正在读取文件目录...");
         let finalFiles = [];
 
+        //检查有无需要忽略的文件或者目录
+        let ignores = CONFIG.ignore;
+        if (ignores.length > 0) {
+            ignores.map((path) => {
+                return path
+            });
+            let filePath = join(path, item);
+        }
+
         function doRead(path) {
             fs.readdirSync(path).forEach((item, index) => {
                 let filePath = join(path, item);
                 let stat = fs.statSync(filePath);
+                if () {
 
+                }
                 if (stat.isDirectory()) {
                     doRead(filePath);
                 }
@@ -119,7 +130,8 @@ function Uploader() {
                 break;
         }
 
-        return "qiniu.zone." + code;
+        let zoneUrlObj = qiniu.zone[code];
+        return zoneUrlObj;
     };
 }
 
