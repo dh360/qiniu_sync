@@ -96,29 +96,42 @@ function getFilesList() {
 function getInfo(bucket, options) {
     return new Promise((resolve, reject) => {
         bucketManager.listPrefix(bucket, options, function (err, respBody, respInfo) {
-            if (err) {
-                reject(err);
-            }
-
-            console.log('err', err);
-            console.log(respInfo);
-            if (respInfo.statusCode == 200) {
-                let nextMarker = respBody.marker;
-                let commonPrefixes = respBody.commonPrefixes; //这个地方是用来判断 空间中是否还有没下载的额文件， 记录本次下载的文件到哪个地方， 以实现断点续传
-                let items = respBody.items;
-                items.forEach(function (item) {});
-            }
-
             let res = {
-                statusCode: respInfo.statusCode, //返回状态码
-                msg: respBody
+                statusCode: '', //返回状态码
+                msg: ''
             };
-            resolve(res);
+
+            if (err) {
+                let errInfo = err.message.split('\n');
+                res.statusCode = errInfo[0] || 'error';
+                res.msg = JSON.parse(errInfo[1]).error;
+                reject(res);
+            } else {
+
+                console.log('err', err);
+                console.log(respInfo);
+                if (respInfo.statusCode == 200) {
+                    let nextMarker = respBody.marker;
+                    let commonPrefixes = respBody.commonPrefixes; //这个地方是用来判断 空间中是否还有没下载的额文件， 记录本次下载的文件到哪个地方， 以实现断点续传
+                    let items = respBody.items;
+                    items.forEach(function (item) {});
+                }
+                res.statusCode = respInfo.statusCode;
+                res.msg = respBody;
+                resolve(res);
+            }
+
         });
     });
 }
 
-getInfo('', {
+let options = ['leomeo', {
     limit: 500,
     prefix: ''
+}];
+// console.log(a);
+getInfo(...options).then((a) => {
+    console.log('1', a)
+}).catch((b) => {
+    console.log("2", b)
 });

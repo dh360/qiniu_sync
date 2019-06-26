@@ -99,6 +99,7 @@ function Uploader() {
         let NumTotal = files.length;
         let NumDone = 0;
         let processBar = new ProgressBar(NumTotal);
+        console.log(files);
         for (let i in files) {
             processBar.render("正在上传", NumTotal, i);
 
