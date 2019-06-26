@@ -12,12 +12,12 @@ function Uploader() {
         let accessKey = CONFIG.accessKey;
         let secretKey = CONFIG.secretKey;
         let putPolicy = new qiniu.rs.PutPolicy({
-            scope: CONFIG.bucket
+            scope: CONFIG.upLoad.bucket
         });
         let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         let uploadToken = putPolicy.uploadToken(mac);
         let config = new qiniu.conf.Config();
-        config.zone = this.checkArea(CONFIG.zone); //  把存储地区换成相应的zone code
+        config.zone = this.checkArea(CONFIG.upLoad.zone); //  把存储地区换成相应的zone code
         let formUploader = new qiniu.form_up.FormUploader(config);
         let putExtra = new qiniu.form_up.PutExtra();
         return {
@@ -36,7 +36,7 @@ function Uploader() {
         let finalFiles = [];
 
         //检查有无需要忽略的文件或者目录
-        let ignores = CONFIG.ignore;
+        let ignores = CONFIG.upLoad.ignore;
         if (ignores.length > 0) {
             ignores.map((path) => {
                 return path
@@ -48,9 +48,9 @@ function Uploader() {
             fs.readdirSync(path).forEach((item, index) => {
                 let filePath = join(path, item);
                 let stat = fs.statSync(filePath);
-                if () {
+                // if () {
 
-                }
+                // }
                 if (stat.isDirectory()) {
                     doRead(filePath);
                 }
@@ -73,10 +73,13 @@ function Uploader() {
                 if (respErr) {
                     reject(respErr);
                 }
+                console.log("跑出错误");
                 let res = {
                     respBody,
                     respInfo
                 }
+                console.log("继续执行");
+
                 resolve(res);
             })
         })
@@ -89,7 +92,7 @@ function Uploader() {
             uploadToken,
             putExtra
         } = this.init();
-        let files = this.readFiles(CONFIG.uploadDir);
+        let files = this.readFiles(CONFIG.upLoad.fileDir);
         console.log('文件目录读取成功，开始上传目录文件')
         console.log("待上传的文件队列个数为：   ", files.length);
         //进度条

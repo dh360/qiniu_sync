@@ -15,10 +15,10 @@ let key = 'bbb/upload_test_files/car.png';
 let url = bucketManager.publicDownloadUrl(publicBucketDomain, key);
 console.log(url);
 
-request(url, (req, res) => {
-    console.log(req);
-    console.log(res);
-});
+// request(url, (req, res) => {
+//     console.log(req);
+//     console.log(res);
+// });
 
 //保存文件到本地
 function saveFile(fileName, savePath) {
@@ -43,10 +43,10 @@ function parsePath(url) {
     for (let i in fileAndDirs) {
         if (i > 1) {
             //判断文件夹在不在， 不在就创建新的文件夹， 在的话 放进去
-
+            mkdir(dir);
             //最后一个是文件名， 而不是文件夹
             if (i == fileAndDirs.length - 1) {
-
+                create(files);
             }
         }
     }
@@ -100,19 +100,25 @@ function getInfo(bucket, options) {
                 reject(err);
             }
 
-            let res = {
-                statusCode: respInfo.statusCode, //返回状态码
-                msg: respBody
-            };
+            console.log('err', err);
+            console.log(respInfo);
             if (respInfo.statusCode == 200) {
                 let nextMarker = respBody.marker;
                 let commonPrefixes = respBody.commonPrefixes; //这个地方是用来判断 空间中是否还有没下载的额文件， 记录本次下载的文件到哪个地方， 以实现断点续传
                 let items = respBody.items;
                 items.forEach(function (item) {});
-                resolve(res);
-            } else {
-                reject(res);
             }
+
+            let res = {
+                statusCode: respInfo.statusCode, //返回状态码
+                msg: respBody
+            };
+            resolve(res);
         });
     });
 }
+
+getInfo('', {
+    limit: 500,
+    prefix: ''
+});
