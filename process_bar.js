@@ -33,7 +33,7 @@ ProgressBar.prototype.render = function (desc, numTotal, numDone) {
     }
 };
 
-//清除
+//清除  
 ProgressBar.prototype.done = function () {
     log.clear();
 }

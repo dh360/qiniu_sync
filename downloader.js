@@ -127,11 +127,34 @@ function getInfo(bucket, options) {
 
 let options = ['leomeo', {
     limit: 500,
-    prefix: ''
+    prefix: '' //前缀
 }];
-// console.log(a);
+
 getInfo(...options).then((a) => {
     console.log('1', a)
 }).catch((b) => {
     console.log("2", b)
 });
+
+
+
+let path = './upload_test/';
+fs.mkdirSync(path);
+
+
+
+function test(start, end) {
+
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+
+    var startDateTimeStamp = startDate.getTime();
+    var endDateTimeStamp = endDate.getTime();
+    if (startDateTimeStamp < endDateTimeStamp) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+test('2019-06-28', '2019-06-27');
