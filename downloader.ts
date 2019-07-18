@@ -21,7 +21,7 @@ console.log(url);
 // });
 
 //保存文件到本地
-function saveFile(fileName, savePath) {
+function saveFile(fileName: string, savePath: string) {
     let rootPath = path.join(__dirname);
     if (fs.existsSync(rootPath)) {
         console.log('路径已经存在， 请更换其他路径');
@@ -156,5 +156,3 @@ function test(start, end) {
         return false;
     }
 }
-
-test('2019-06-28', '2019-06-27');

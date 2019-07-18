@@ -7,6 +7,8 @@ function ProgressBar(numFils) {
     this.length = numFils || 100;
 }
 
+
+
 // 刷新进度条
 ProgressBar.prototype.render = function (desc, numTotal, numDone) {
 
