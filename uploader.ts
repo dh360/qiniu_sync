@@ -1,14 +1,18 @@
 let qiniu = require('qiniu');
 let ProgressBar = require('./process_bar');
-declare const CONFIG = require('./config.js');
+const CONFIG = require('./config.js');
 let fs = require("fs");
 let join = require('path').join;
 
-function Uploader() {
-    /*
+
+class Uploader { 
+    constructor() { 
+
+    }
+        /*
      *初始化  生成mac 签名验证  返回formUploader 上传对象
      */
-    this.init = function () {
+     init() { 
         let accessKey = CONFIG.accessKey;
         let secretKey = CONFIG.secretKey;
         let putPolicy = new qiniu.rs.PutPolicy({
@@ -25,27 +29,26 @@ function Uploader() {
             uploadToken,
             putExtra
         };
-    };
+    }
 
-    /*
+        /*
      *  读取上传目录 遍历 其中的文件 
      * params path  目录路径
      */
-    this.readFiles = function (filePath) {
+    readFiles(filePath: string) { 
         console.log("正在读取文件目录...");
-        let finalFiles = [];
+        let finalFiles: string[] = [];
 
         //检查有无需要忽略的文件或者目录
         let ignores = CONFIG.upLoad.ignore;
         if (ignores.length > 0) {
-            ignores.map((path) => {
+            ignores.map((path : string) => {
                 return path
             });
-            let filePath = join(path, item);
         }
 
-        function doRead(path) {
-            fs.readdirSync(path).forEach((item, index) => {
+        function doRead(path: string) {
+            fs.readdirSync(path).forEach((item: string, index: number) => {
                 let filePath = join(path, item);
                 let stat = fs.statSync(filePath);
                 // if () {
@@ -62,14 +65,14 @@ function Uploader() {
         doRead(filePath);
 
         return finalFiles;
-    };
+    }
 
-    /*
+       /*
      * 将上传函数包装成 promise函数
      */
-    this.doUpload = function (formUploader, uploadToken, putExtra, localFile, key) {
+    doUpload(formUploader:any , uploadToken:string, putExtra: string, localFile:string, key:string ) { 
         return new Promise((resolve, reject) => {
-            formUploader.putFile(uploadToken, key, localFile, putExtra, (respErr, respBody, respInfo) => {
+            formUploader.putFile(uploadToken, key, localFile, putExtra, (respErr: object, respBody: object, respInfo :object) => {
                 if (respErr) {
                     reject(respErr);
                 }
@@ -83,10 +86,9 @@ function Uploader() {
                 resolve(res);
             })
         })
+    }
 
-    };
-
-    this.start = async function () {
+    async start() { 
         const {
             formUploader,
             uploadToken,
@@ -108,9 +110,9 @@ function Uploader() {
             const uploadRes = await this.doUpload(formUploader, uploadToken, putExtra, localFile, key);
         };
         processBar.render("正在上传", NumTotal, NumTotal);
-    };
-
-    this.checkArea = function (name) {
+    }
+    
+    checkArea(nam: string) { 
         let code = 'Zone_z0'; //默认华北
         if (!name) {
             console.log("请输入要传输的对象存储的区域")
@@ -136,8 +138,8 @@ function Uploader() {
 
         let zoneUrlObj = qiniu.zone[code];
         return zoneUrlObj;
-    };
-}
+    }
 
+}
 
 module.exports = Uploader;
