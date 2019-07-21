@@ -1,39 +1,34 @@
-let qiniu = require('qiniu');
+let Qiniu = require('qiniu');
 let request = require("request");
-let fs = require('fs');
-const CONFIG = require('./config.js');
+let Fs = require('fs');
+let CONFsIG = require('./config.js');
+console.log(CONFIG);
 let accessKey = CONFIG.accessKey;
 let secretKey = CONFIG.secretKey;
-let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-let config = new qiniu.conf.Config();
-let bucketManager = new qiniu.rs.BucketManager(mac, config);
-let publicBucketDomain = 'http://qiniucdn.netcaa.com';
+let mac = new Qiniu.auth.digest.Mac(accessKey, secretKey);
+let config = new Qiniu.conf.Config();
+let bucketManager = new Qiniu.rs.BucketManager(mac, config);
+let publicBucketDomain = 'http://Qiniucdn.netcaa.com';
 let key = 'bbb/upload_test_files/car.png';
-
 
 // 公开空间访问链接
 let url = bucketManager.publicDownloadUrl(publicBucketDomain, key);
 console.log(url);
 
-// request(url, (req, res) => {
-//     console.log(req);
-//     console.log(res);
-// });
-
 //保存文件到本地
 function saveFile(fileName: string, savePath: string) {
     let rootPath = path.join(__dirname);
-    if (fs.existsSync(rootPath)) {
+    if (Fs.existsSync(rootPath)) {
         console.log('路径已经存在， 请更换其他路径');
     } else {
-        fs.mkdirSync(rootPath);
+        Fs.mkdirSync(rootPath);
     }
     if (fileName) {
 
     }
 }
 
-//    http://qiniucdn.netcaa.com/bbb/upload_test_files/dinghao/1111/car.png
+//    http://Qiniucdn.netcaa.com/bbb/upload_test_files/dinghao/1111/car.png
 //解析路径   创建相应的目录和文件
 function parsePath(url) {
     let domin = CONFIG.domin;
@@ -139,7 +134,7 @@ getInfo(...options).then((a) => {
 
 
 let path = './upload_test/';
-fs.mkdirSync(path);
+Fs.mkdirSync(path);
 
 
 
